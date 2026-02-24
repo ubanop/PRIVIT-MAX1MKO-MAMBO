@@ -1,16 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Mambo.exe</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    color: red;
+    font-family: monospace;
+    text-align: center;
+  }
+
+  #chaosText {
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: blinkZoom 0.2s infinite alternate;
+    z-index: 10;
+  }
+
+  #funImage {
+    max-width: 70%;
+    max-height: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: brightness(1);
+    transition: all 0.1s ease;
+  }
+
+  @keyframes blinkZoom {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(1.3); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  #startSound {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div id="chaosText">
+  ВЫ ПОПАЛИ НА СЕРВЕР <span id="maxText">MAMBO.EXE, Я ВИЖУ ТЕБЯ МАКСИМКА</span>
+</div>
+
+<img id="funImage" src="face1.jpg" alt="chaos">
+
+<!-- Кнопка для включения звука -->
+<button id="startSound">НАЖМИ, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК</button>
+
+<audio id="funSound" src="sound.mp3" loop></audio>
+
 <script>
 const images = ["face1.jpg","face2.jpg","face3.jpg"];
 const imgEl = document.getElementById("funImage");
 
+// Хаотичные эффекты
 function chaosEffect() {
+    // Меняем картинку
     const index = Math.floor(Math.random() * images.length);
     imgEl.src = images[index];
 
+    // Зум, поворот, яркость
     const zoom = 0.8 + Math.random() * 0.6;
     const brightness = 0.5 + Math.random() * 1.5;
     imgEl.style.transform = `translate(-50%, -50%) scale(${zoom}) rotate(${Math.random()*30-15}deg)`;
     imgEl.style.filter = `brightness(${brightness})`;
 
+    // Надпись мигает и меняет размер/цвет
     const maxText = document.getElementById("maxText");
     maxText.style.color = `rgb(${Math.random()*255},0,0)`;
     maxText.style.fontSize = `${30 + Math.random()*50}px`;
@@ -18,4 +92,14 @@ function chaosEffect() {
 
 // Меняем эффекты каждые 150 мс
 setInterval(chaosEffect, 150);
+
+// Звук по клику
+const audio = document.getElementById("funSound");
+document.getElementById("startSound").addEventListener("click", () => {
+    audio.play();
+    document.getElementById("startSound").style.display = 'none';
+});
 </script>
+
+</body>
+</html>
